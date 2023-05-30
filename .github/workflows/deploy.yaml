@@ -7,6 +7,12 @@ on:
     branches:
       - main
 jobs:
+  Security-Check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Snyk Security Check
+        uses: ./.github/workflows/snyk.yml
   Deploy-Production:
     runs-on: ubuntu-latest
     steps:      
