@@ -24,6 +24,8 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Create snyk-code.sarif
         run: touch snyk-code.sarif
+      - name: Snyk Auth
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}`snyk` requires an authenticated account. Please run `snyk auth` and try again.
         # Runs Snyk Code (SAST) analysis and uploads result into GitHub.
         # Use || true to not fail the pipeline
         # Push the Snyk Code results into GitHub Code Scanning tab      - name: Create snyk-code.sarif
