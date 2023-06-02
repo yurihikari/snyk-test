@@ -6,6 +6,8 @@ on:
   pull_request:
     types:
       - closed
+    branches:
+      - main
 jobs:
   Deploy-Production:
     if: github.event.pull_request.merged == true
