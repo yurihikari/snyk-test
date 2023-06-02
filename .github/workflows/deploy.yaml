@@ -9,7 +9,7 @@ on:
 jobs:
   snyk-scan:
       name: Snyk Security Scan
-      uses: .github/workflows/snyk.yaml
+      uses: ./.github/workflows/snyk.yaml
   Deploy-Production:
     needs: snyk-scan
     if: ${{ needs.snyk-scan.result == 'success' }}
