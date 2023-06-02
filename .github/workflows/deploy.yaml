@@ -8,12 +8,11 @@ on:
       - main
 jobs:
   snyk:
-    name: Snyk Security Scan
+    name: snyk
     uses: ./.github/snyk.yaml
   Deploy-Production:
     needs: snyk
     runs-on: ubuntu-latest
-    if: needs.snyk.result == 'success'
     steps:      
       - uses: actions/checkout@v2
       - name: Install Vercel CLI
