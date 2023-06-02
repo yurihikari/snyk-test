@@ -8,7 +8,8 @@ on:
       - main
 jobs:
   snyk:
-    uses: ./.github/actions/snyk.yaml
+      name: Snyk Security Scan
+      uses: .github/workflows/snyk.yaml
   Deploy-Production:
     needs: snyk
     if: ${{ success() }}
