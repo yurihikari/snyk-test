@@ -41,6 +41,8 @@ jobs:
       - name: Snyk Code test
         run: snyk code test
   Deploy-Production:
+    needs: snyk
+    if: ${{ success() }}
     runs-on: ubuntu-latest
     steps:      
       - uses: actions/checkout@v2
