@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run Snyk Security Check
-        uses: ./.github/workflows/snyk.yaml
+        uses: ./.github/snyk.yaml
   Deploy-Production:
     runs-on: ubuntu-latest
     steps:      
