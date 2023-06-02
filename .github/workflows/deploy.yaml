@@ -1,4 +1,4 @@
-name: Vercel Production Deployment
+name: Vercel
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -7,11 +7,11 @@ on:
     branches:
       - main
 jobs:
-  snyk:
+  snyk-scan:
       name: Snyk Security Scan
       uses: .github/workflows/snyk.yaml
   Deploy-Production:
-    needs: snyk
+    needs: snyk-scan
     if: ${{ needs.snyk.result == 'success' }}
     runs-on: ubuntu-latest
     steps:      
