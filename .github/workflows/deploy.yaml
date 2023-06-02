@@ -12,7 +12,7 @@ jobs:
       uses: .github/workflows/snyk.yaml
   Deploy-Production:
     needs: snyk
-    if: ${{ success() }}
+    if: ${{ needs.snyk.result == 'success' }}
     runs-on: ubuntu-latest
     steps:      
       - uses: actions/checkout@v2
