@@ -2,31 +2,24 @@ name: Vercel
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 on:
   pull_request:
-    branches:
-      - main
+    types:
+      - closed
 jobs:
-  snyk-scan:
-      name: Snyk Security Scan
-      uses: ./.github/workflows/snyk.yaml
-      secrets:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  Preview-Production:
-    needs: snyk-scan
-    if: ${{ needs.snyk-scan.result == 'success' }}
+  Deploy-Production:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:      
       - uses: actions/checkout@v2
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
-        run: echo "url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_OUTPUT
+        run: echo "url=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_OUTPUT
         id: deploy
       - uses: actions/github-script@v3
         with:
@@ -36,5 +29,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'The preview URL is: ${{ steps.deploy.outputs.url }}.'
+              body: 'The production URL is: ${{ steps.deploy.outputs.url }}.'
             });
